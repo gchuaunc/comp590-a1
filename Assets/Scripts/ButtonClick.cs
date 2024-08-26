@@ -4,6 +4,9 @@ using UnityEngine.InputSystem.EnhancedTouch;
 public class ButtonClick : MonoBehaviour
 {
     [SerializeField] private Pew pewPrefab;
+    [SerializeField] private float maxPewSpeed = 1000f;
+    [SerializeField] private float minPewSpeed = 750f;
+    [SerializeField] private float pewBloom = 200f;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +31,8 @@ public class ButtonClick : MonoBehaviour
     private void SpawnPew() {
         Pew pew = Instantiate(pewPrefab);
         pew.transform.localPosition = transform.position;
-        pew.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * Random.Range(500f, 750f));
+        Rigidbody pewRb = pew.GetComponent<Rigidbody>();
+        pewRb.AddForce(Camera.main.transform.forward * Random.Range(minPewSpeed, maxPewSpeed));
+        pewRb.AddForce(Camera.main.transform.right * Random.Range(-pewBloom, pewBloom));
     }
 }
